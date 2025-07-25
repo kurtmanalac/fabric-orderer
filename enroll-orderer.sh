@@ -63,5 +63,5 @@ wait $UNZIP_PID
 rm -r /app/data/$ENROLL_ID/msp/admincerts/admincerts.zip
 
 # --- Start the peer ---
-echo "🚀 Starting Fabric peer..."
-peer node start
+echo "🚀 Starting Fabric orderer..."
+orderer start
