@@ -7,7 +7,7 @@ set -e
 CA_URL=${CA_URL:-http://github-fabric-ca.railway.internal:8000}
 MSP_DIR=${MSP_DIR:-/app/data/fabric-ca-client/$ENROLL_ID/msp}
 FABRIC_CA_CLIENT_HOME=${FABRIC_CA_CLIENT_HOME:-/app/data/fabric-ca-client/}
-customCmd=${customCmd:---csr.hosts $RAILWAY_SERVICE_NAME,$RAILWAY_PRIVATE_DOMAIN --csr.names C=US,ST=California,L=SanFrancisco,O=upmo,OU=peer}
+customCmd=${customCmd:---csr.hosts $RAILWAY_SERVICE_NAME,$RAILWAY_PRIVATE_DOMAIN --csr.names C=US,ST=California,L=SanFrancisco,O=upmo,OU=orderer}
 enroll_json=$(jq -n --arg id "$ENROLL_ID" --arg pw "$ENROLL_PW" --arg cmd "$customCmd" '{userId: $id, userPw: $pw, customCmd: $cmd}')
 source=${source:-/app/data/fabric-ca-client/$ENROLL_ID}
 zip_json=$(jq -n --arg src "$source" '{sourceFolder: $src, zipPath: ($src+".zip")}')
@@ -18,8 +18,8 @@ zip_json=$(jq -n --arg src "$source" '{sourceFolder: $src, zipPath: ($src+".zip"
 # echo "⬇️  Downloading CA certificate..."
 # curl -s "$CA_URL/cainfo" | jq -r .result.CAChain > "$TLS_CERT_PATH"
 
-# --- Enroll the peer identity ---
-echo "🔐 Enrolling peer with Fabric CA..."
+# --- Enroll the orderer identity ---
+echo "🔐 Enrolling orderer with Fabric CA..."
 curl -X POST $CA_URL/enroll \
     -H "Content-Type: application/json" \
     -d "$enroll_json" &
@@ -62,6 +62,6 @@ UNZIP_PID=$!
 wait $UNZIP_PID
 rm -r /app/data/$ENROLL_ID/msp/admincerts/admincerts.zip
 
-# --- Start the peer ---
+# --- Start the orderer ---
 echo "🚀 Starting Fabric orderer..."
 orderer start
