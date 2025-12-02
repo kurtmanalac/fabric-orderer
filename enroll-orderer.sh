@@ -42,6 +42,12 @@ curl -X POST $CA_URL/zip-folder \
 
 sleep 5
 
+echo "copying from $CA_URL to local peer container..."
+mkdir -p $FABRIC_CA_CLIENT_HOME/$ENROLL_ID
+curl -o $FABRIC_CA_CLIENT_HOME/$ENROLL_ID/$ENROLL_ID.zip $CA_URL$FABRIC_CA_CLIENT_HOME/$ENROLL_ID.zip
+
+sleep 5
+
 echo "deleting zip file from $CA_URL..."
 curl -X POST $CA_URL/invoke-script \
     -H "Content-Type: application/json" \
