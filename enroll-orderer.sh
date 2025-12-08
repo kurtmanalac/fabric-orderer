@@ -71,8 +71,8 @@ curl -X POST $temp_URL/invoke-script \
 
 KEYFILE=$(find $FABRIC_CA_CLIENT_HOME/$ENROLL_ID/tls/keystore -type f -name '*_sk')
 
-export ORDERER_GENERAL_TLS_PRIVATEKEY = $KEYFILE
-export ORDERER_GENERAL_TLS_CERTIFICATE = $FABRIC_CA_CLIENT_HOME/$ENROLL_ID/tls/signcerts/cert.pem
+export ORDERER_GENERAL_TLS_PRIVATEKEY=$KEYFILE
+export ORDERER_GENERAL_TLS_CERTIFICATE=$FABRIC_CA_CLIENT_HOME/$ENROLL_ID/tls/signcerts/cert.pem
 # --- Start the orderer ---
 echo "🚀 Starting Fabric orderer..."
 orderer start
