@@ -74,6 +74,7 @@ KEYFILE=$(find $FABRIC_CA_CLIENT_HOME/$ENROLL_ID/tls/keystore -type f -name '*_s
 export ORDERER_GENERAL_TLS_PRIVATEKEY=$KEYFILE
 export ORDERER_GENERAL_TLS_CERTIFICATE=$FABRIC_CA_CLIENT_HOME/$ENROLL_ID/tls/signcerts/cert.pem
 export ORDERER_GENERAL_TLS_ROOTCAS=$FABRIC_CA_CLIENT_HOME/$ENROLL_ID/msp/tlscacerts/tls-cert.pem
+sleep 5
 # --- Start the orderer ---
 echo "🚀 Starting Fabric orderer..."
 orderer start
