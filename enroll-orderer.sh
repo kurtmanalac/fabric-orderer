@@ -35,40 +35,40 @@ curl -X POST $CA_URL/invoke-script \
 
 sleep 5
 
-echo "Zipping MSP files from $FABRIC_CA_CLIENT_HOME/$ENROLL_ID ..."
-curl -X POST $CA_URL/zip-folder \
-    -H "Content-Type: application/json" \
-    -d "$zip_json"
+# echo "Zipping MSP files from $FABRIC_CA_CLIENT_HOME/$ENROLL_ID ..."
+# curl -X POST $CA_URL/zip-folder \
+#     -H "Content-Type: application/json" \
+#     -d "$zip_json"
 
-sleep 5
+# sleep 5
 
-echo "copying from $CA_URL to local peer container..."
-mkdir -p $FABRIC_CA_CLIENT_HOME/$ENROLL_ID
-curl -o $FABRIC_CA_CLIENT_HOME/$ENROLL_ID/$ENROLL_ID.zip $CA_URL$FABRIC_CA_CLIENT_HOME/$ENROLL_ID.zip
+# echo "copying from $CA_URL to local peer container..."
+# mkdir -p $FABRIC_CA_CLIENT_HOME/$ENROLL_ID
+# curl -o $FABRIC_CA_CLIENT_HOME/$ENROLL_ID/$ENROLL_ID.zip $CA_URL$FABRIC_CA_CLIENT_HOME/$ENROLL_ID.zip
 
-sleep 5
+# sleep 5
 
-echo "deleting zip file from $CA_URL..."
-curl -X POST $CA_URL/invoke-script \
-    -H "Content-Type: application/json" \
-    -d "$clean_json"
+# echo "deleting zip file from $CA_URL..."
+# curl -X POST $CA_URL/invoke-script \
+#     -H "Content-Type: application/json" \
+#     -d "$clean_json"
 
-echo "deleting zip file from local peer container..."
-unzip -o $FABRIC_CA_CLIENT_HOME/$ENROLL_ID/$ENROLL_ID.zip -d $FABRIC_CA_CLIENT_HOME/$ENROLL_ID/
+# echo "deleting zip file from local peer container..."
+# unzip -o $FABRIC_CA_CLIENT_HOME/$ENROLL_ID/$ENROLL_ID.zip -d $FABRIC_CA_CLIENT_HOME/$ENROLL_ID/
 
-rm -r $FABRIC_CA_CLIENT_HOME/$ENROLL_ID/$ENROLL_ID.zip
+# rm -r $FABRIC_CA_CLIENT_HOME/$ENROLL_ID/$ENROLL_ID.zip
 
-# invoke script transfer file to storage
-SOURCE_URL=${SOURCE_URL:-http://github-fabric-ca.railway.internal:8000}
-SOURCE_FOLDER=${SOURCE_FOLDER:-$FABRIC_CA_CLIENT_HOME/$ENROLL_ID}
-FOLDER_NAME=$ENROLL_ID
-temp_URL=${temp_URL:-http://fabric-tools-storage.railway.internal:8080}
-transfer_json=$(jq -n --arg script "transfer-file.sh" --arg url "$SOURCE_URL" --arg folder "$SOURCE_FOLDER" --arg name "$FOLDER_NAME" '{"shellScript": $script, "envVar": {"SOURCE_URL": $url, "SOURCE_FOLDER": $folder, "FOLDER_NAME": $name}}')
-echo "Transferring files to storage..."
-curl -X POST $temp_URL/invoke-script \
-    -H "Content-Type: application/json" \
-    -d "$transfer_json"
+# # invoke script transfer file to storage
+# SOURCE_URL=${SOURCE_URL:-http://github-fabric-ca.railway.internal:8000}
+# SOURCE_FOLDER=${SOURCE_FOLDER:-$FABRIC_CA_CLIENT_HOME/$ENROLL_ID}
+# FOLDER_NAME=$ENROLL_ID
+# temp_URL=${temp_URL:-http://fabric-tools-storage.railway.internal:8080}
+# transfer_json=$(jq -n --arg script "transfer-file.sh" --arg url "$SOURCE_URL" --arg folder "$SOURCE_FOLDER" --arg name "$FOLDER_NAME" '{"shellScript": $script, "envVar": {"SOURCE_URL": $url, "SOURCE_FOLDER": $folder, "FOLDER_NAME": $name}}')
+# echo "Transferring files to storage..."
+# curl -X POST $temp_URL/invoke-script \
+#     -H "Content-Type: application/json" \
+#     -d "$transfer_json"
 
-# --- Start the orderer ---
-echo "🚀 Starting Fabric orderer..."
-orderer start
+# # --- Start the orderer ---
+# echo "🚀 Starting Fabric orderer..."
+# orderer start
