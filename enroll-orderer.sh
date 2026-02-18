@@ -70,12 +70,13 @@ curl -X POST $temp_URL/invoke-script \
     -d "$transfer_json"
 
 KEYFILE=$(find $FABRIC_CA_CLIENT_HOME/$ENROLL_ID/tls/keystore -type f -name '*_sk')
-
+echo "this is the keyfile: $KEYFILE"
 export ORDERER_GENERAL_TLS_PRIVATEKEY=$KEYFILE
 export ORDERER_GENERAL_TLS_CERTIFICATE=$FABRIC_CA_CLIENT_HOME/$ENROLL_ID/tls/signcerts/cert.pem
 # export ORDERER_GENERAL_TLS_ROOTCAS=$FABRIC_CA_CLIENT_HOME/$ENROLL_ID/msp/tlscacerts/tls-cert.pem
 export ORDERER_GENERAL_LOCALMSPDIR=$FABRIC_CA_CLIENT_HOME/$ENROLL_ID/msp
 export ORDERER_GENERAL_TLS_ROOTCAS=/dev/null
+# export ORDERER_GENERAL_BOOTSTRAPFILE=/dev/null
 echo "test to see $ORDERER_GENERAL_TLS_ROOTCAS"
 sleep 5
 # --- Start the orderer ---
